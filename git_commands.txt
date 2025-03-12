@@ -1,0 +1,17 @@
+Only 1st time do>>
+git remote add origin https://github.com/kulshreya03/event-attendence.git
+
+
+
+
+Command to push to remote>>
+git add .
+git commit -m "first commit"
+git branch -M main //do only if you created a new branch
+git push -u origin main
+
+Commands to pull to local>>
+git pull origin main
+
+For backend>>
+npm install
