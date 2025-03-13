@@ -35,7 +35,7 @@ export const EventData = () => {
     });
 
     try {
-      const response = await fetch("http://localhost:5000/register", {
+      const response = await fetch("http://localhost:5000/api/register", {
         method: "POST",
         body: formDataToSend,
       });
