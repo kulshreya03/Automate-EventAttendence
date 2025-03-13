@@ -74,14 +74,19 @@ app.post("/register", upload.single("certificate"), async (req, res) => {
 });
 
 // 📌 API to Fetch All Events
-app.get("/events", async (req, res) => {
-    try {
-      const events = await Event.find();
-      res.status(200).json(events);
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching data", error });
-    }
-  });
+app.get('/api/events/:division', async (req, res) => {
+  try {
+      const division = req.params.division;
+      const students = await Event.find(
+          { div: division }, // Filter by division
+          { event_id: 1, prn: 1, name: 1, certificate: 1, _id: 0 } // Select required fields
+      );
+
+      res.json(students); // Send data as JSON
+  } catch (err) {
+      res.status(500).json({ error: "Error retrieving data" });
+  }
+});
 
 
 // 📌 Start the Server
