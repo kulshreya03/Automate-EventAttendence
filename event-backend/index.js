@@ -16,6 +16,8 @@ connectDB();
 
 // Routes
 app.use("/api", eventRoutes);
+//app.use('/static', express.static(path.join(__dirname, 'uploads')))
+
 
 // Start Server
 const PORT = process.env.PORT || 5000;
