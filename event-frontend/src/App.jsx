@@ -5,25 +5,34 @@ import HomePage from './pages/Homepage'
 import {Routes,Route } from 'react-router-dom'
 import { EventData } from './pages/EventData'
 import TeacherPage from './pages/TeacherPage'
-function App() {
+import { useState } from 'react'
+import ProtectedStudent from './utils/ProtectedStudent'
+import ProtectedTeacher from './utils/ProtectedTeacher'
 
+function App() {
+  const [isLoggedIn,setLoggedIn]=useState(false)
 
   return (
     <>
-      
         <Routes>
 
-
           <Route path='/' element={<HomePage/>}></Route>
+
           <Route path='/student_login' element={ <StudentLogin/> }/>
           <Route path='/teacher_login' element={ <TeacherLogin/> }/>
-          <Route path='/event_data' element={<EventData/>}/>
-          <Route path='/events' element={<TeacherPage/>}/>
 
+
+          <Route element={<ProtectedStudent isAuthenticated={isLoggedIn}/> }>
+          <Route path='/event_data' element={<EventData/>}/>
+          </Route>
+   
+          <Route element={<ProtectedTeacher isAuthenticated={isLoggedIn}/> }>
+          <Route path='/events' element={<TeacherPage/>}/>
+          </Route>
+      
         </Routes>
       
-    
-      
+        
     </>
   )
 }

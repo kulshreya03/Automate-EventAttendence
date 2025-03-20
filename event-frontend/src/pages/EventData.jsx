@@ -22,6 +22,7 @@ export const EventData = () => {
     const { name, value, type, files } = e.target;
     setFormData((prev) => ({
       ...prev,
+
       [name]: type === "file" ? files[0] : value, // Store file correctly
     }));
   };
