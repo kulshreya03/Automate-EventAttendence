@@ -1,5 +1,5 @@
 import "../css/StudentLogin.css";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 function StudentLogin() {
 
@@ -10,6 +10,14 @@ function StudentLogin() {
 
     const [message, setMessage] = useState(""); // ✅ For showing error/success messages
     const navigate = useNavigate(); // ✅ Initialize navigation
+
+    // ✅ Redirect if already logged in
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            navigate("/event_data");
+        }
+    }, [navigate]);
 
     function handleChange(e)
     {
@@ -38,7 +46,7 @@ function StudentLogin() {
                 localStorage.setItem("token", data.token); // ✅ Store token
                 navigate("/event_data"); // ✅ Redirect on success
             } else {
-                setMessage(data.message); // Show error message
+                setMessage(data.message || "Invalid login credentials!"); // Show error message
             }
         } catch (error) {
             console.error("Login error:", error);

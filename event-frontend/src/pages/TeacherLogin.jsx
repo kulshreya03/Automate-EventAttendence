@@ -1,5 +1,5 @@
 import "../css/TeacherLogin.css";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -12,6 +12,14 @@ function TeacherLogin() {
 
      const [message, setMessage] = useState("");
     const navigate = useNavigate(); // ✅ Initialize navigation
+
+    // ✅ Redirect if already logged in
+    useEffect(() => {
+        const token = localStorage.getItem("teacherToken");
+        if (token) {
+            navigate("/events");
+        }
+    }, [navigate]);
 
     function handleChange(e)
     {
@@ -37,7 +45,7 @@ function TeacherLogin() {
             const data = await response.json();
 
             if (response.ok) {
-                localStorage.setItem("token", data.token); // ✅ Store token
+                localStorage.setItem("teacherToken", data.token); // ✅ Store token
                 navigate("/events"); // ✅ Redirect on success
             } else {
                 setMessage(data.message); // Show error message

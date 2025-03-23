@@ -10,25 +10,25 @@ import ProtectedStudent from './utils/ProtectedStudent'
 import ProtectedTeacher from './utils/ProtectedTeacher'
 
 function App() {
-  const [isLoggedIn,setLoggedIn]=useState(false)
+  const [isLoggedIn,setLoggedIn]=useState()
 
   return (
     <>
         <Routes>
 
-          <Route path='/' element={<HomePage/>}></Route>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/student_login" element={<StudentLogin />} />
+        <Route path="/teacher_login" element={<TeacherLogin />} />
 
-          <Route path='/student_login' element={ <StudentLogin/> }/>
-          <Route path='/teacher_login' element={ <TeacherLogin/> }/>
+        {/* Protected routes for students */}
+        <Route element={<ProtectedStudent />}>
+          <Route path="/event_data" element={<EventData />} />
+        </Route>
 
-
-          <Route element={<ProtectedStudent isAuthenticated={isLoggedIn}/> }>
-          <Route path='/event_data' element={<EventData/>}/>
-          </Route>
-   
-          <Route element={<ProtectedTeacher isAuthenticated={isLoggedIn}/> }>
-          <Route path='/events' element={<TeacherPage/>}/>
-          </Route>
+        {/* Protected routes for teachers */}
+        <Route element={<ProtectedTeacher />}>
+          <Route path="/events" element={<TeacherPage />} />
+        </Route>
       
         </Routes>
       

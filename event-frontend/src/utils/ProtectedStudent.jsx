@@ -1,12 +1,9 @@
-import React from 'react'
-import { Navigate, Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from "react-router-dom";
 
-const ProtectedStudent = (props) => {
-    // let auth={'token': false}
-    return (
-        props.isAuthenticated ? 
-        <Outlet /> : <Navigate to="/student_login" />
-    )
-}
+const ProtectedStudent = () => {
+    const token = localStorage.getItem("token"); // Check for token
+
+    return token ? <Outlet /> : <Navigate to="/loginStud" replace />;
+};
 
 export default ProtectedStudent;
