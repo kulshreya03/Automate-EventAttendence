@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import '../css/EventData.css';
+import { useNavigate } from "react-router-dom";
 
 export const EventData = () => {
   const [formData, setFormData] = useState({
@@ -16,7 +17,17 @@ export const EventData = () => {
     certificate: null,
   });
 
+  const navigate=useNavigate()
   const [message, setMessage] = useState(""); // For showing submission status
+
+
+  const logout=async()=>{
+
+    window.localStorage.removeItem("token")
+    navigate('/student_login')
+
+  }
+
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -126,6 +137,8 @@ export const EventData = () => {
                 certificate: null,
             })}>Reset</button>
           </div>
+
+          <button onClick={logout}>Logout</button>
         </form>
       </div>
     </div>

@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import "../css/TeacherPage.css"; // Importing CSS for styling
+import { useNavigate } from "react-router-dom";
 
 export const TeacherPage = () => {
   const [division, setDivision] = useState("");  // State for input division
   const [students, setStudents] = useState([]);  // State for fetched students
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate(); 
+
+  const logout=async()=>{ 
+    localStorage.removeItem('teacherToken');
+    navigate('/teacher_login')
+  }
 
   // Function to fetch students based on division
   const fetchStudents = async () => {
@@ -85,6 +92,9 @@ export const TeacherPage = () => {
       {!loading && students.length === 0 && !error && (
         <p className="no-results">No students found for this division.</p>
       )}
+
+
+      <button onClick={logout}>Logout</button>
     </div>
   );
 };
