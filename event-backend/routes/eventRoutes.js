@@ -10,8 +10,8 @@ router.post("/loginStud", loginStudent);
 router.post("/loginTeacher", loginTeacher);
 
 // Protected Routes (Only authenticated users can access)
-router.post("/register", verifyToken, upload.single("certificate"), registerEvent);  //register event
-router.get("/events/:division", verifyToken, getEventsByDivision);  //retieve data
+router.post("/register", upload.single("certificate"), registerEvent);  //register event
+router.get("/events/:division", getEventsByDivision);  //retieve data
 
 // /image/name-image 
 // coding - form path from image name and send image as content 
