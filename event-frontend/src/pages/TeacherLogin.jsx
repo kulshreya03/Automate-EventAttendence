@@ -46,6 +46,7 @@ function TeacherLogin() {
 
             if (response.ok) {
                 localStorage.setItem("teacherToken", data.token); // ✅ Store token
+                localStorage.setItem("div", data.div); //Store teacher div
                 navigate("/events"); // ✅ Redirect on success
             } else {
                 setMessage(data.message); // Show error message

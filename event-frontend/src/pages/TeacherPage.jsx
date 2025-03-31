@@ -3,11 +3,12 @@ import "../css/TeacherPage.css"; // Importing CSS for styling
 import { useNavigate } from "react-router-dom";
 
 export const TeacherPage = () => {
-  const [division, setDivision] = useState("");  // State for input division
   const [students, setStudents] = useState([]);  // State for fetched students
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate(); 
+
+  const assignedDivision = localStorage.getItem("div"); //assign at login
 
   const logout=async()=>{ 
     localStorage.removeItem('teacherToken');
@@ -16,16 +17,12 @@ export const TeacherPage = () => {
 
   // Function to fetch students based on division
   const fetchStudents = async () => {
-    if (!division) {
-      setError("Please enter a division.");
-      return;
-    }
 
     setLoading(true);
     setError("");
 
     try {
-      const response = await fetch(`http://localhost:5000/api/events/${division.toUpperCase()}`);
+      const response = await fetch(`http://localhost:5000/api/events/${assignedDivision.toUpperCase()}`);
       const data = await response.json();
 
       if (!response.ok) {
@@ -44,7 +41,7 @@ export const TeacherPage = () => {
     <div className="teacher-container">
       <h1>Search Students by Division</h1>
 
-      {/* Input field to enter division */}
+      {/* Input field to enter division 
       <div className="search-container">
         <input
           type="text"
@@ -53,10 +50,17 @@ export const TeacherPage = () => {
           onChange={(e) => setDivision(e.target.value.toUpperCase())}
           className="search-input"
         />
+        
+      </div> */}
+
         <button onClick={fetchStudents} className="search-button">
-          Search
+          Class Teacher
         </button>
-      </div>
+
+        <button onClick={fetchStudents} className="search-button">
+          Approving Faculty
+        </button>
+
 
       {/* Error Message */}
       {error && <p className="error-message">{error}</p>}

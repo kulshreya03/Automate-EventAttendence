@@ -37,8 +37,9 @@ const loginTeacher = async (req, res) => {
 
         // Generate JWT Token
         const token = jwt.sign({ uname: teacher.uname, role: "teacher" }, JWT_SECRET, { expiresIn: "1h" });
+        const div = teacher.division;
 
-        res.status(200).json({ token });
+        res.status(200).json({ token,div });
     } catch (error) {
         res.status(500).json({ message: "Error logging in", error });
     }

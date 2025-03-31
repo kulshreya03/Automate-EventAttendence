@@ -15,3 +15,6 @@ git pull origin main
 
 For backend>>
 npm install
+
+To reset to commit (removing later commits)>>
+git reset --hard 3d6e2b1

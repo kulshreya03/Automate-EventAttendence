@@ -7,7 +7,6 @@ export const EventData = () => {
     prn: "",
     name: "",
     year: "FE",
-    class: "",
     div: "",
     event: "",
     date: "",
@@ -59,7 +58,6 @@ export const EventData = () => {
           prn: "",
           name: "",
           year: "FE",
-          class: "",
           div: "",
           event: "",
           date: "",
@@ -97,9 +95,6 @@ export const EventData = () => {
             <option value="BE">Final Year</option>
           </select>
 
-          <label htmlFor="class">Class:</label>
-          <input type="text" id="class" name="class" value={formData.class} onChange={handleChange} required />
-
           <label htmlFor="div">Division:</label>
           <input type="text" id="div" name="div" value={formData.div} onChange={handleChange} required />
 
@@ -127,7 +122,6 @@ export const EventData = () => {
                 prn: "",
                 name: "",
                 year: "FE",
-                class: "",
                 div: "",
                 event: "",
                 date: "",
