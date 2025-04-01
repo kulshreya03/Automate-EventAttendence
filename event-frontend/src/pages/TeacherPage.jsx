@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export const TeacherPage = () => {
   const [students, setStudents] = useState([]);  // State for fetched students
+  const [approvalMode, setApprovalMode] = useState(""); // "teacher" or "faculty"
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate(); 
@@ -21,6 +22,7 @@ export const TeacherPage = () => {
   // Function to fetch students based on division
   const fetchStudents = async () => {
 
+    setApprovalMode("teacher");
     setLoading(true);
     setError("");
 
@@ -42,6 +44,7 @@ export const TeacherPage = () => {
 
   const fetchFaculty = async () => {
 
+    setApprovalMode("faculty");
     setLoading(true);
     setError("");
 
@@ -85,6 +88,27 @@ export const TeacherPage = () => {
       setError("Error approving student");
     }
   };
+
+  const approveAndMoveStudent = async (prn) => {
+    try {
+        const response = await fetch(`http://localhost:5000/api/approve-and-move/${prn}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to approve and move student");
+        }
+
+        // Remove the student from local state after moving them
+        setStudents(students.filter(student => student.prn !== prn));
+
+    } catch (err) {
+        console.error("Error approving student:", err);
+        setError("Error approving student");
+    }
+  };
+
 
 
 
@@ -142,7 +166,11 @@ export const TeacherPage = () => {
                   {!student.permit ? (
                     <button 
                       className="approve-button"
-                      onClick={() => approveStudent(student.prn)}
+                      onClick={() => 
+                        approvalMode === "teacher"
+                        ? approveAndMoveStudent(student.prn) // Move to approvedStud
+                        : approveStudent(student.prn) // Just update permit to true
+                    }
                     >
                       Approve
                     </button>

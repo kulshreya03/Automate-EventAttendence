@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerEvent, getEventsByDivision, getEventsByFaculty, approveStudent } = require("../controllers/eventController");
+const { registerEvent, getEventsByDivision, getEventsByFaculty, approveStudent,approveAndMoveStudent } = require("../controllers/eventController");
 const upload = require("../middleware/uploadMiddleware");
 const { loginStudent, loginTeacher,verifyToken } = require("../controllers/authController")
 
@@ -14,6 +14,8 @@ router.post("/register", upload.single("certificate"), registerEvent);  //regist
 router.get("/events/:division", getEventsByDivision);  //retieve data
 router.get("/faculty/:faculty",getEventsByFaculty);  
 router.put("/approve/:prn", approveStudent);
+router.put("/approve-and-move/:prn", approveAndMoveStudent);
+
 
 // /image/name-image 
 // coding - form path from image name and send image as content 

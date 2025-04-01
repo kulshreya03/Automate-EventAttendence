@@ -1,4 +1,5 @@
 const Event = require("../models/Event");
+const ApprovedStud = require("../models/ApprovedStud");
 
 // 📌 Function to Generate Unique Event ID
 const generateEventID = async (date) => {
@@ -79,5 +80,36 @@ const approveStudent = async (req, res) => {
     }
 };
 
+const approveAndMoveStudent = async (req, res) => {
+    try {
+        const { prn } = req.params;
 
-module.exports = { registerEvent, getEventsByDivision, getEventsByFaculty, approveStudent };
+        // Find the student in the `events` collection
+        const student = await Event.findOne({ prn });
+
+        if (!student) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        // Move student data to `approvedStud` collection
+        const approvedStudent = new ApprovedStud({
+            event_id: student.event_id,
+            prn: student.prn,
+            name: student.name,
+            certificate: student.certificate,
+            permit: true, // Ensure permit is set to true
+        });
+
+        await approvedStudent.save(); // Save to the new table
+
+        // Remove student from `events` collection
+        await Event.deleteOne({ prn });
+
+        res.json({ message: "Student approved and moved successfully" });
+    } catch (err) {
+        res.status(500).json({ message: "Error approving student", error: err.message });
+    }
+};
+
+
+module.exports = { registerEvent, getEventsByDivision, getEventsByFaculty, approveStudent, approveAndMoveStudent };
