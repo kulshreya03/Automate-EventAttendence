@@ -18,7 +18,8 @@ const registerEvent = async (req, res) => {
         const eventData = new Event({
             event_id,
             ...req.body,
-            certificate: req.file ? req.file.filename : null
+            certificate: req.file ? req.file.filename : null,
+            permit: req.file ? true : false
         });
 
         await eventData.save();

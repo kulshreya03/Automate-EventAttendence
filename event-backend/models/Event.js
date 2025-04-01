@@ -11,7 +11,8 @@ const eventSchema = new mongoose.Schema({
     time: String,
     venue: String,
     faculty: String,
-    certificate: String
+    certificate: String,
+    permit: { type: Boolean, default: false }
 });
 
 const Event = mongoose.model("Event", eventSchema);

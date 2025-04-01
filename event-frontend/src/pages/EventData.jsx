@@ -14,6 +14,7 @@ export const EventData = () => {
     venue: "",
     faculty: "",
     certificate: null,
+    permit: false
   });
 
   const navigate=useNavigate()
@@ -65,6 +66,7 @@ export const EventData = () => {
           venue: "",
           faculty: "",
           certificate: null,
+          permit: false,
         });
       } else {
         setMessage("Error: " + data.message);
@@ -114,7 +116,7 @@ export const EventData = () => {
           <input type="text" id="faculty" name="faculty" value={formData.faculty} onChange={handleChange} required />
 
           <label htmlFor="certificate">Upload Certificate:</label>
-          <input type="file" id="certificate" name="certificate" accept=".pdf,.jpg,.png" onChange={handleChange} required />
+          <input type="file" id="certificate" name="certificate" accept=".pdf,.jpg,.png" onChange={handleChange} />
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <button type="submit" className="btn submit">Submit</button>
@@ -129,6 +131,7 @@ export const EventData = () => {
                 venue: "",
                 faculty: "",
                 certificate: null,
+                permit: false
             })}>Reset</button>
           </div>
 
