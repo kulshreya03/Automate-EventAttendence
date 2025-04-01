@@ -43,4 +43,19 @@ const getEventsByDivision = async (req, res) => {
     }
 };
 
-module.exports = { registerEvent, getEventsByDivision };
+// Fetch Students By Faculty
+const getEventsByFaculty = async (req, res) => {
+    try {
+        const faculty_name = req.params.faculty;
+        const students = await Event.find(
+            { faculty: faculty_name },
+            { event_id: 1, prn: 1, name: 1, certificate: 1, _id: 0 }
+        );
+
+        res.json(students);
+    } catch (err) {
+        res.status(500).json({ error: "Error retrieving data" });
+    }
+};
+
+module.exports = { registerEvent, getEventsByDivision, getEventsByFaculty };

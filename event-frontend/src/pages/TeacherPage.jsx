@@ -9,9 +9,12 @@ export const TeacherPage = () => {
   const navigate = useNavigate(); 
 
   const assignedDivision = localStorage.getItem("div"); //assign at login
+  const approvingFaculty = localStorage.getItem("faculty");  //assign faculty at login
 
   const logout=async()=>{ 
     localStorage.removeItem('teacherToken');
+    localStorage.removeItem('div');
+    localStorage.removeItem('faculty');
     navigate('/teacher_login')
   }
 
@@ -23,6 +26,27 @@ export const TeacherPage = () => {
 
     try {
       const response = await fetch(`http://localhost:5000/api/events/${assignedDivision.toUpperCase()}`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to fetch data");
+      }
+
+      setStudents(data);
+    } catch (err) {
+      setError(err.message);
+    }
+
+    setLoading(false);
+  };
+
+  const fetchFaculty = async () => {
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/faculty/${encodeURIComponent(approvingFaculty)}`);
       const data = await response.json();
 
       if (!response.ok) {
@@ -57,7 +81,7 @@ export const TeacherPage = () => {
           Class Teacher
         </button>
 
-        <button onClick={fetchStudents} className="search-button">
+        <button onClick={fetchFaculty} className="search-button">
           Approving Faculty
         </button>
 
