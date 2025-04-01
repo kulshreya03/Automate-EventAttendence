@@ -61,6 +61,33 @@ export const TeacherPage = () => {
     setLoading(false);
   };
 
+
+  // Approve student by updating permit value
+  const approveStudent = async (prn) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/approve/${prn}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ permit: true }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to approve student");
+      }
+
+      // Update the local state to reflect the change
+      setStudents(students.map(student => 
+        student.prn === prn ? { ...student, permit: true } : student
+      ));
+
+    } catch (err) {
+      console.error("Error approving student:", err);
+      setError("Error approving student");
+    }
+  };
+
+
+
   return (
     <div className="teacher-container">
       <h1>Search Students by Division</h1>
@@ -101,6 +128,7 @@ export const TeacherPage = () => {
               <th>PRN</th>
               <th>Name</th>
               <th>Certificate</th>
+              <th>Approve</th>
             </tr>
           </thead>
           <tbody>
@@ -110,6 +138,18 @@ export const TeacherPage = () => {
                 <td>{student.prn}</td>
                 <td>{student.name}</td>
                 <td>{student.certificate}</td>
+                <td>
+                  {!student.permit ? (
+                    <button 
+                      className="approve-button"
+                      onClick={() => approveStudent(student.prn)}
+                    >
+                      Approve
+                    </button>
+                  ) : (
+                    <span className="approved-text">Approved</span>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
