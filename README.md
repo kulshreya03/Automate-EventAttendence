@@ -1,3 +1,4 @@
+\
 # Automate-EventAttendence
 
 A full-stack application designed to streamline and automate the process of managing event attendance. It features a React frontend and a Node.js/Express backend connected to a MongoDB database.
@@ -94,3 +95,40 @@ The backend requires the following environment variables defined in the `event-b
 *   `JWT_SECRET`: (Likely needed if JWT authentication is fully implemented) A secret key for signing JSON Web Tokens.
 
 ## Folder Structure
+
+```
+Automate-EventAttendence/
+├── event-backend/      # Node.js/Express backend code
+│   ├── config/         # Database configuration
+│   ├── controllers/    # Request handling logic
+│   ├── middleware/     # Custom middleware (e.g., auth)
+│   ├── models/         # Mongoose data models
+│   ├── routes/         # API route definitions
+│   ├── uploads/        # Directory for file uploads
+│   ├── .env            # Environment variables (needs creation)
+│   ├── index.js        # Backend entry point
+│   └── package.json    # Backend dependencies and scripts
+│
+├── event-frontend/     # React frontend code
+│   ├── public/         # Static assets
+│   ├── src/            # Frontend source code
+│   │   ├── components/ # Reusable UI components (if structured this way)
+│   │   ├── pages/      # Page-level components
+│   │   ├── App.jsx     # Main application component
+│   │   └── main.jsx    # Frontend entry point
+│   ├── index.html      # HTML template
+│   ├── package.json    # Frontend dependencies and scripts
+│   └── vite.config.js  # Vite configuration
+│
+└── README.md           # Project README file
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1.  Fork the Project
+2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the Branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
