@@ -4,6 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
 const eventRoutes = require("./routes/eventRoutes");
+const path = require("path");
 
 const app = express();
 
@@ -16,8 +17,7 @@ connectDB();
 
 // Routes
 app.use("/api", eventRoutes);
-//app.use('/static', express.static(path.join(__dirname, 'uploads')))
-
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Start Server
 const PORT = process.env.PORT || 5000;

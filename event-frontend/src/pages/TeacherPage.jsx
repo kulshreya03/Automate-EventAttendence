@@ -161,7 +161,20 @@ export const TeacherPage = () => {
                 <td>{student.event_id}</td>
                 <td>{student.prn}</td>
                 <td>{student.name}</td>
-                <td>{student.certificate}</td>
+                <td>
+                  {student.certificate ? (
+                    <a
+                      href={student.certificate}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="certificate-link"
+                    >
+                      View Certificate
+                    </a>
+                  ) : (
+                    "No Certificate"
+                  )}
+                </td>
                 <td>
                   {!student.permit ? (
                     <button 

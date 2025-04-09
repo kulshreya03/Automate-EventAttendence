@@ -1,5 +1,6 @@
 const Event = require("../models/Event");
 const ApprovedStud = require("../models/ApprovedStud");
+const { validateSubmission } = require("../validationService");
 
 // 📌 Function to Generate Unique Event ID
 const generateEventID = async (date) => {
@@ -11,8 +12,18 @@ const generateEventID = async (date) => {
 // 📌 Register Event
 const registerEvent = async (req, res) => {
     try {
-        const { date } = req.body;
+        // Extract necessary data including PRN
+        const { date, prn /* other fields */ } = req.body;
         if (!date) return res.status(400).json({ message: "Event date is required" });
+        if (!prn) return res.status(400).json({ message: "Student PRN is required" }); // Added PRN check
+
+        // --- Added Validation Start ---
+        const isAllowed = await validateSubmission(prn);
+        if (!isAllowed) {
+            console.log(`Registration rejected for PRN ${prn} due to validation rules.`);
+            return res.status(403).json({ message: 'Validation failed: Submission not allowed based on attendance or form submission ratio.' });
+        }
+        // --- Added Validation End ---
 
         const event_id = await generateEventID(date); // Generate unique event_id
 
@@ -35,11 +46,19 @@ const getEventsByDivision = async (req, res) => {
     try {
         const division = req.params.division;
         const students = await Event.find(
-            { div: division, permit : true},
+            { div: division, permit: true },
             { event_id: 1, prn: 1, name: 1, certificate: 1, _id: 0 }
         );
 
-        res.json(students);
+        // Add full URL for certificate
+        const studentsWithCertificateURL = students.map(student => ({
+            ...student._doc,
+            certificate: student.certificate
+                ? `${req.protocol}://${req.get("host")}/uploads/${student.certificate}`
+                : null,
+        }));
+
+        res.json(studentsWithCertificateURL);
     } catch (err) {
         res.status(500).json({ error: "Error retrieving data" });
     }
@@ -50,11 +69,19 @@ const getEventsByFaculty = async (req, res) => {
     try {
         const faculty_name = req.params.faculty;
         const students = await Event.find(
-            { faculty: faculty_name, permit:false },
+            { faculty: faculty_name, permit: false },
             { event_id: 1, prn: 1, name: 1, certificate: 1, _id: 0 }
         );
 
-        res.json(students);
+        // Add full URL for certificate
+        const studentsWithCertificateURL = students.map(student => ({
+            ...student._doc,
+            certificate: student.certificate
+                ? `${req.protocol}://${req.get("host")}/uploads/${student.certificate}`
+                : null,
+        }));
+
+        res.json(studentsWithCertificateURL);
     } catch (err) {
         res.status(500).json({ error: "Error retrieving data" });
     }
@@ -64,6 +91,16 @@ const getEventsByFaculty = async (req, res) => {
 const approveStudent = async (req, res) => {
     try {
         const { prn } = req.params;
+
+        // --- Added Validation Start ---
+        const isAllowed = await validateSubmission(prn);
+        if (!isAllowed) {
+            // Log the reason from the validation service if needed (optional)
+            console.log(`Approval rejected for PRN ${prn} due to validation rules.`);
+            return res.status(403).json({ message: 'Validation failed: Submission not allowed based on attendance or form submission ratio.' });
+        }
+        // --- Added Validation End ---
+
         const updatedStudent = await Event.findOneAndUpdate(
             { prn: prn },
             { permit: true },
@@ -83,6 +120,15 @@ const approveStudent = async (req, res) => {
 const approveAndMoveStudent = async (req, res) => {
     try {
         const { prn } = req.params;
+
+        // --- Added Validation Start ---
+        const isAllowed = await validateSubmission(prn);
+        if (!isAllowed) {
+            // Log the reason from the validation service if needed (optional)
+            console.log(`Approval and move rejected for PRN ${prn} due to validation rules.`);
+            return res.status(403).json({ message: 'Validation failed: Submission not allowed based on attendance or form submission ratio.' });
+        }
+        // --- Added Validation End ---
 
         // Find the student in the `events` collection
         const student = await Event.findOne({ prn });

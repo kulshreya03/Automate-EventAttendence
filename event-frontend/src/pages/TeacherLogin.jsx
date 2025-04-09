@@ -1,35 +1,29 @@
 import "../css/TeacherLogin.css";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 function TeacherLogin() {
+    const [formData, setFormData] = useState({
+        uname: "",
+        password: ""
+    });
 
-    const [formData,setFormData]=useState({
-        uname:"",
-        password:""
-    })
+    const [message, setMessage] = useState("");
+    const navigate = useNavigate();
 
-     const [message, setMessage] = useState("");
-    const navigate = useNavigate(); // ✅ Initialize navigation
-
-    // ✅ Redirect if already logged in
     useEffect(() => {
         const token = localStorage.getItem("teacherToken");
         if (token) {
-            navigate("/events");
+            navigate("/events"); // Redirect to dashboard if already logged in
         }
     }, [navigate]);
 
-    function handleChange(e)
-    {
-        const {name,value}=e.target;
+    function handleChange(e) {
+        const { name, value } = e.target;
 
-        setFormData((prev)=>(
-            {...prev,[name]:value}
-        ))
-
-
+        setFormData((prev) => (
+            { ...prev, [name]: value }
+        ));
     }
 
     async function handleSubmit(e) {
@@ -45,20 +39,18 @@ function TeacherLogin() {
             const data = await response.json();
 
             if (response.ok) {
-                localStorage.setItem("teacherToken", data.token); // ✅ Store token
-                localStorage.setItem("div", data.div); //Store teacher div
-                localStorage.setItem("faculty",data.faculty); //Store faculty name
-                navigate("/events"); // ✅ Redirect on success
+                localStorage.setItem("teacherToken", data.token);
+                localStorage.setItem("div", data.div);
+                localStorage.setItem("faculty", data.faculty);
+                navigate("/events");
             } else {
-                setMessage(data.message); // Show error message
+                setMessage(data.message);
             }
         } catch (error) {
             console.error("Login error:", error);
             setMessage("Error logging in. Try again!");
         }
     }
-
-
 
     return (
         <div className="main">
@@ -72,7 +64,6 @@ function TeacherLogin() {
                     <label>Enter Your Password</label>
                     <input type="password" name="password" placeholder="Enter Password" value={formData.password} onChange={handleChange} required /><br></br>
                     <button type="submit">Login</button>
-                
                 </form>
             </div>
         </div>

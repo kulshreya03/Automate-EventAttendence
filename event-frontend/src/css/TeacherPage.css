@@ -79,3 +79,13 @@
     color: gray;
     font-size: 14px;
 }
+
+/* Certificate Link */
+.certificate-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.certificate-link:hover {
+    text-decoration: underline;
+}

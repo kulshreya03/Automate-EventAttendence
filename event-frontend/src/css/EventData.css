@@ -1,58 +1,211 @@
-.background-container{
+/* --- START OF FILE EventData.css --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Reset and Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Main Container for the Page */
+.event-registration-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgb(67, 113, 165);
-    /*background: url("https://www.transparenttextures.com/patterns/stardust.png") no-repeat center center/cover;
-    opacity: 0.5;*/
+    min-height: 100vh;
+    /* Softer gradient */
+    background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+    padding: 30px 20px; /* Increased top/bottom padding */
+}
+
+/* The Form Card */
+.form-card {
+    background: white;
+    padding: 40px; /* Increased padding */
+    border-radius: 15px;
+    /* More subtle shadow */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 550px; /* Slightly wider */
+    text-align: center;
+    border: 1px solid #eee; /* Subtle border */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Optional: Add a subtle hover effect to the card */
+.form-card:hover {
+    /* transform: translateY(-5px); */ /* Can uncomment if desired */
+    /* box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); */
 }
 
 
-.container {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 20px;
-    border-radius: 10px;
-    width: 350px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-}
+/* Form Title */
 h2 {
+    font-size: 28px; /* Larger title */
+    font-weight: 600; /* Bolder title */
+    color: #2c3e50; /* Darker blue-grey color */
+    margin-bottom: 30px; /* Increased margin */
     text-align: center;
 }
+
+/* Feedback Message Area */
+.message {
+    padding: 12px 15px;
+    margin-bottom: 20px; /* Increased margin */
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    border: 1px solid transparent;
+}
+
+.message.success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.message.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+/* Form Grouping */
+.form-group {
+    margin-bottom: 20px; /* Increased spacing */
+    text-align: left;
+}
+
+/* Labels */
 label {
     display: block;
-    margin-top: 10px;
-    font-weight: bold;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px; /* Increased spacing */
+    font-weight: 600; /* Bolder labels */
 }
-input, select {
+
+/* Input Fields & Select */
+input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="file"],
+select {
     width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: none;
+    padding: 12px 15px; /* Increased padding */
+    border: 1px solid #ccc;
+    border-radius: 6px; /* Slightly more rounded */
+    font-size: 15px; /* Slightly larger font */
+    font-family: 'Poppins', sans-serif; /* Ensure font consistency */
     outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f8f9fa; /* Very light background */
+    color: #333;
 }
+
+input:focus,
+select:focus {
+    border-color: #007bff; /* Standard blue focus */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Subtle glow effect */
+}
+
+/* Style Placeholder Text */
+input::placeholder {
+    color: #aaa;
+    opacity: 1; /* Firefox */
+}
+input::-ms-input-placeholder { /* Edge */
+    color: #aaa;
+}
+
+/* Custom File Input Styling */
 input[type="file"] {
-    background: white;
-    color: black;
+    padding: 5px 10px; /* Adjust padding */
+    line-height: 1.8; /* Adjust line height for vertical alignment */
+    color: #555; /* Match other input text color */
 }
-.btn {
-    width: 48%;
-    padding: 10px;
-    margin-top: 15px;
+
+input[type="file"]::file-selector-button {
+    margin-right: 10px;
+    padding: 8px 15px;
     border: none;
-    cursor: pointer;
+    background-color: #6c757d; /* Neutral grey */
+    color: white;
     border-radius: 5px;
-    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
 }
-.submit {
-    background: #27ae60;
-    color: white;
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #5a6268;
 }
-.reset {
-    background: #c0392b;
-    color: white;
+
+/* Button Container */
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px; /* Increased gap */
+    margin-top: 25px; /* Add margin above buttons */
 }
+
+/* General Button Styling */
+.btn {
+    padding: 12px 20px; /* Increased padding */
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600; /* Bolder text */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    width: 48%;
+    text-transform: uppercase; /* Uppercase text */
+    letter-spacing: 0.5px; /* Slight letter spacing */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 .btn:hover {
-    opacity: 0.8;
+    opacity: 0.9;
+    transform: translateY(-2px); /* Lift effect */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
+
+.btn:active {
+    transform: translateY(0px); /* Press effect */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Specific Button Colors */
+.submit {
+    background: #28a745; /* Vibrant green */
+    color: white;
+}
+
+.reset {
+    background: #dc3545; /* Standard red */
+    color: white;
+}
+
+/* Logout Button Styling */
+.logout {
+    background: #007bff; /* Primary blue */
+    color: white;
+    margin-top: 25px; /* Consistent margin */
+    width: 100%; /* Make logout full width */
+    display: block; /* Ensure it takes full width */
+}
+
+/* Remove unused styles */
+/* .background-container, .container { ... } */
+
+/* --- END OF FILE EventData.css --- */

@@ -1,12 +1,12 @@
 import "../css/StudentLogin.css";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-function StudentLogin() {
 
-    const [formData,setFormData]=useState({
-        prn:"",
-        password:""
-    })
+function StudentLogin() {
+    const [formData, setFormData] = useState({
+        prn: "",
+        password: ""
+    });
 
     const [message, setMessage] = useState(""); // ✅ For showing error/success messages
     const navigate = useNavigate(); // ✅ Initialize navigation
@@ -15,19 +15,16 @@ function StudentLogin() {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
-            navigate("/event_data");
+            navigate("/event_data"); // Redirect to dashboard if already logged in
         }
     }, [navigate]);
 
-    function handleChange(e)
-    {
-        const {name,value}=e.target;
+    function handleChange(e) {
+        const { name, value } = e.target;
 
-        setFormData((prev)=>(
-            {...prev,[name]:value}
-        ))
-
-
+        setFormData((prev) => (
+            { ...prev, [name]: value }
+        ));
     }
 
     async function handleSubmit(e) {
@@ -54,8 +51,6 @@ function StudentLogin() {
         }
     }
 
-
-
     return (
         <div className="main">
             <div className="form-container">
@@ -68,7 +63,6 @@ function StudentLogin() {
                     <label>Enter Your Password</label>
                     <input type="password" name="password" placeholder="Enter Password" value={formData.password} onChange={handleChange} required /><br></br>
                     <button type="submit">Login</button>
-                
                 </form>
             </div>
         </div>
